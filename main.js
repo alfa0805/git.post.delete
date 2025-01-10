@@ -22,7 +22,7 @@ function getelement() {
             button.className = 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ml-3'
             button.textContent = 'delet'
             button.onclick = () =>{daletebrands(data?.id)}
-            card.className = 'bg-gray-800 rounded-[10px] h-[320px] hover:shadow-gray-950 hover:shadow-[0px_6px_12px_6px] hover:scale-[101%] hover:transition-all'
+            card.className = 'bg-gray-400 rounded-[10px] h-[320px] hover:shadow-gray-600 hover:shadow-[0px_6px_12px_6px] hover:scale-[101%] hover:transition-all'
             card.innerHTML = `
                 <img src="https://realauto.limsa.uz/api/uploads/images/${data?.image_src}" alt="" class="rounded-t-[10px] w-full h-[230px]">
                 <p class="text-xl text pt-3 text-center text-gray-200">${data?.title}</p>
