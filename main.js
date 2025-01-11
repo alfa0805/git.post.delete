@@ -48,39 +48,40 @@ getelement()
 // malumot qo'shish\\\\\\\\
 let form = document.getElementById('form');
 let formtext = document.getElementById('formtext');
-// let formfile = document.getElementById('formfile');
-// let modalbtn = document.getElementById('modalbtn');
+let formimages = document.getElementById('formimages');
+let subtext = document.getElementById('formsubtext');
+let modalbtn = document.getElementById('modalbtn');
 let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzFmY2NmNjUtZTIzOC00N2NmLWE3MWItYTUyNmJhZDcyYmEzIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTczNjI0MzY1MCwiZXhwIjoxNzY3Nzc5NjUwfQ.NrnqBfOI9yHXtBHDB7hTvucLjshs8UrJdDFkuip8-Pw";
 
-// modalbtn.addEventListener('click' , function(e){
-//     e.preventDefault();
-//     let formData = new FormData();
-//     formData.append('title' , formtext.value);
-//     formData.append('images' , formfile.files[0]);
-//     fetch("https://realauto.limsa.uz/api/brands" , {
-//         method: 'POST',
-//         headers:{
-//             'Authorization':`Bearer ${token}`
-//         },
-//         body: formData
-//     }).then(res=>{
-//         // console.log("success");
-//         form.reset();
-//         getelement()
-//         Swal.fire({
-//             title: "Good job!",
-//             text: "You clicked the button!",
-//             icon: "success"
-//           });
-//     }).catch(err=>{
-//         // console.log('error')
-//         Swal.fire({
-//             title: "Good job!",
-//             text: "You clicked the button!",
-//             icon: "error"
-//           });
-//     })
-// });
+modalbtn.addEventListener('click' , function(e){
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append('title' , subtext.value);
+    formData.append('images' , formimages.files[0]);
+    fetch("https://realauto.limsa.uz/api/brands" , {
+        method: 'POST',
+        headers:{
+            'Authorization':`Bearer ${token}`
+        },
+        body: formData
+    }).then(res=>{
+        // console.log("success");
+        form.reset();
+        getelement()
+        Swal.fire({
+            title: "Good job!",
+            text: "You clicked the button!",
+            icon: "success"
+          });
+    }).catch(err=>{
+        // console.log('error')
+        Swal.fire({
+            title: "Good job!",
+            text: "You clicked the button!",
+            icon: "error"
+          });
+    })
+});
 
 
 function daletebrands(id) {
