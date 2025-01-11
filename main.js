@@ -1,6 +1,6 @@
 
 let cardConteiner =document.getElementById('cardContainer');
-
+let appbrands = 'https://realauto.limsa.uz/api/brands'
 function getelement() {
     cardConteiner.innerHTML += `
             <div role="status" class="absolute top-[150px] left-[590px] " id="loading">
@@ -11,7 +11,7 @@ function getelement() {
                 <span class="sr-only">Loading...</span>
             </div>
     `
-    fetch("https://realauto.limsa.uz/api/brands").
+    fetch(`${appbrands}`).
     then((response) => response.json())
     .then((res) => {
         // console.log(res);
@@ -19,16 +19,22 @@ function getelement() {
         res?.data?.forEach(data => {
             let card = document.createElement('div');
             let button = document.createElement('button');
+            let editbutton = document.createElement('button');
             button.className = 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:shadow-gray-700 hover:shadow-[0px_6px_12px_6px] hover:scale-[101%] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ml-3'
             button.textContent = 'delet'
             button.onclick = () =>{daletebrands(data?.id)}
+            editbutton.className = 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:shadow-gray-700 hover:shadow-[0px_6px_12px_6px] hover:scale-[101%] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ml-3'
+            editbutton.textContent = 'edit'
+            editbutton.onclick = () =>{showvalue(data)}
+
             card.className = 'bg-gray-400 rounded-[10px] h-[320px] shadow-gray-300 shadow-[0px_6px_12px_6px] hover:shadow-gray-600 hover:shadow-[0px_6px_12px_6px] hover:scale-[101%] hover:transition-all'
             card.innerHTML = `
                 <img src="https://realauto.limsa.uz/api/uploads/images/${data?.image_src}" alt="" class="rounded-t-[10px] w-full h-[230px]">
                 <p class="text-xl text pt-3 text-center text-gray-200">${data?.title}</p>
             `
             cardConteiner.appendChild(card);
-            card.appendChild(button);            
+            card.appendChild(button);
+            card.appendChild(editbutton);            
         });
         
     }).catch((err) => {
@@ -42,50 +48,48 @@ getelement()
 // malumot qo'shish\\\\\\\\
 let form = document.getElementById('form');
 let formtext = document.getElementById('formtext');
-let formfile = document.getElementById('formfile');
-let modalbtn = document.getElementById('modalbtn');
+// let formfile = document.getElementById('formfile');
+// let modalbtn = document.getElementById('modalbtn');
 let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzFmY2NmNjUtZTIzOC00N2NmLWE3MWItYTUyNmJhZDcyYmEzIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTczNjI0MzY1MCwiZXhwIjoxNzY3Nzc5NjUwfQ.NrnqBfOI9yHXtBHDB7hTvucLjshs8UrJdDFkuip8-Pw";
 
-modalbtn.addEventListener('click' , function(e){
-    e.preventDefault();
-    let formData = new FormData();
-    formData.append('title' , formtext.value);
-    formData.append('images' , formfile.files[0]);
-    fetch("https://realauto.limsa.uz/api/brands" , {
-        method: 'POST',
-        headers:{
-            'Authorization':`Bearer ${token}`
-        },
-        body: formData
-    }).then(res=>{
-        // console.log("success");
-        form.reset();
-        getelement()
-        Swal.fire({
-            title: "Good job!",
-            text: "You clicked the button!",
-            icon: "success"
-          });
-    }).catch(err=>{
-        // console.log('error')
-        Swal.fire({
-            title: "Good job!",
-            text: "You clicked the button!",
-            icon: "error"
-          });
-    })
-});
+// modalbtn.addEventListener('click' , function(e){
+//     e.preventDefault();
+//     let formData = new FormData();
+//     formData.append('title' , formtext.value);
+//     formData.append('images' , formfile.files[0]);
+//     fetch("https://realauto.limsa.uz/api/brands" , {
+//         method: 'POST',
+//         headers:{
+//             'Authorization':`Bearer ${token}`
+//         },
+//         body: formData
+//     }).then(res=>{
+//         // console.log("success");
+//         form.reset();
+//         getelement()
+//         Swal.fire({
+//             title: "Good job!",
+//             text: "You clicked the button!",
+//             icon: "success"
+//           });
+//     }).catch(err=>{
+//         // console.log('error')
+//         Swal.fire({
+//             title: "Good job!",
+//             text: "You clicked the button!",
+//             icon: "error"
+//           });
+//     })
+// });
 
 
-// dalete\\\\\\\\\\\\
 function daletebrands(id) {
-    fetch(`https://realauto.limsa.uz/api/brands/${id}`,{
+    fetch(`${appbrands}/${id}`,{
         method: 'DELETE',
         headers:{
             'Authorization':`Bearer ${token}`
         }
     }).then(res =>{
-        // console.log(res);
         cardConteiner.innerHTML = ''
         getelement()
         Swal.fire({
@@ -94,7 +98,6 @@ function daletebrands(id) {
             icon: "success"
           });
     }).catch(err=>{
-    // console.log('error')
     Swal.fire({
         title: "Good job!",
         text: "You clicked the button!",
@@ -102,3 +105,44 @@ function daletebrands(id) {
       });
 })
 }
+
+var brandid = ""
+
+function showvalue (data){
+    brandid = data?.id
+    formtext.value = data?.title
+}
+
+function editbrends (id){
+    let formData = new FormData();
+    formData.append('title', formtext.value)
+    if(formfile.files[0]){
+        formData.append('images' , formfile.files[0])
+    }
+    fetch(`${appbrands}/${brandid}`,{
+        method: 'PUT',
+        headers:{
+            'Authorization':`Bearer ${token}`
+        },
+        body: formData
+    }).then(res=>{
+        if(res.ok){
+            form.reset();
+            cardConteiner.innerHTML = ''
+            getelement()
+            Swal.fire({
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success"
+              });
+        }  
+    }).catch(err=>{
+        // console.log('error')
+        Swal.fire({
+            title: "Good job!",
+            text: "You clicked the button!",
+            icon: "error"
+          });
+    })
+}
+editbrends()
